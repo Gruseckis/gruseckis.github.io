@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>TextAnalyzer</title>
+  </head>
+  <body>
+    <div class="source-code">
+      <textarea name="code" id="source-code" cols="65" rows="12">
+procedure TEditor.DrawLines(Y, Count: Integer; LinePtr: Word);
+var Color: Word; b: array[0..MaxLineLength - 1] of Word;
+while Count > 0 do
+Begin
+FormatLine(B, LinePtr, Delta.X + Size.X, color);
+WriteBuf(0 Y, Size.X, 1, b[Delta.X]);
+LinePtr := NextLine(LinePtr);
+Inc(Y);
+Dec(Count);
+End;
+R := Operand * R / 100;
+End;</textarea
+      >
+      <button onclick="main()">Analyze</button>
+    </div>
+    <div class="key-words">
+      <ul class="key-word-list">
+        <li class="keyword">procedure</li>
+        <li class="keyword">.</li>
+        <li class="keyword">(</li>
+        <li class="keyword">,</li>
+        <li class="keyword">:</li>
+        <li class="keyword">;</li>
+        <li class="keyword">)</li>
+        <li class="keyword">var</li>
+        <li class="keyword">[</li>
+        <li class="keyword">..</li>
+        <li class="keyword">-</li>
+        <li class="keyword">]</li>
+        <li class="keyword">of</li>
+        <li class="keyword">Begin</li>
+        <li class="keyword">:=</li>
+        <li class="keyword">while</li>
+        <li class="keyword">&gt;</li>
+        <li class="keyword">do</li>
+        <li class="keyword">+</li>
+        <li class="keyword">end</li>
+        <li class="keyword">*</li>
+        <li class="keyword">/</li>
+        <li class="keyword">Integer</li>
+        <li class="keyword">Word</li>
+        <li class="keyword">$</li>
+      </ul>
+      <input type="text" class="add-key-word-input" />
+      <button class="add-btn" onclick="addKeyWord()">Add keyword</button>
+    </div>
+  </body>
+  <script src="./index.js"></script>
+</html>
