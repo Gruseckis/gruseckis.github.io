@@ -1,0 +1,7 @@
+body {
+  display: flex;
+}
+
+#source-code {
+  resize: none;
+}
