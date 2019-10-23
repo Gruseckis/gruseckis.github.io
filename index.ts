@@ -1,3 +1,23 @@
+type LiteralType = 'KEY' | 'IDENT' | 'CONST';
+
+interface GlobalLiteralTableItem {
+  literal: string;
+  type: LiteralType;
+  position: number;
+}
+
+const finalTable: Array<GlobalLiteralTableItem> = [];
+
+const identifierArray: Array<string> = [];
+const digitArray: Array<string> = [];
+const delimeterArray: Array<string> = [];
+let identifier = '';
+let digit = '';
+let delim = '';
+
+let keyWords: Array<string> = [];
+let delimeters: Array<string> = [];
+
 function addKeyWord(): void {
   const keyWordInput = document.querySelector(
     '.add-key-word-input'
@@ -12,54 +32,95 @@ function addKeyWord(): void {
   const newListItem = document.createElement('li') as HTMLLIElement;
   newListItem.textContent = keyWord;
   newListItem.classList.add('keyword');
-  document.querySelector('.key-word-list').appendChild(newListItem);
+  (document.querySelector('.key-word-list') as HTMLUListElement).appendChild(
+    newListItem
+  );
 }
 
 function anazyle(sourceCode: string) {
-  const keyWords = getKeyWords();
-  const delimeters = getDelimeters(keyWords);
-  const identifierArray = [];
-  const digitArray = [];
+  finalTable.length = 0;
+  keyWords = getKeyWords();
+  delimeters = getDelimeters(keyWords);
   console.log(keyWords);
   console.log(delimeters);
-  let identifier = '';
-  let digit = '';
+
   for (let i = 0; i < sourceCode.length; i++) {
     const char = sourceCode[i];
     if (/[a-z]/i.test(char)) {
+      pushToDelimArray();
       identifier = identifier.concat(char);
     } else if (/\d/i.test(char)) {
+      pushToDelimArray();
       if (identifier.length) {
         identifier = identifier.concat(char);
       } else {
         digit = digit.concat(char);
       }
     } else {
-      if (identifier.length) {
-        identifierArray.push(identifier);
-        identifier = '';
-        // lookup goes here
+      pushToArray();
+      const checkDelimeter = delim.concat(char);
+      let indexInArray = keyWords.indexOf(checkDelimeter);
+
+      if (indexInArray >= 0) {
+        delim = delim.concat(char);
+      } else if (char !== ' ' && char.charCodeAt(0) !== 10) {
+        alert(`Unknown symbol ${char} ; Char code: ${char.charCodeAt(0)}`);
+        return;
       }
-      if (digit.length) {
-        digitArray.push(digit);
-        digit = '';
+      if (char !== ':' && char !== '.') {
+        pushToDelimArray();
       }
     }
   }
 
-  // TODO: refactor this
+  pushToArray();
+  console.log(identifierArray);
+  console.log(digitArray);
+  console.log(delimeterArray);
+  console.log(finalTable);
+}
+
+function pushToArray() {
   if (identifier.length) {
-    identifierArray.push(identifier);
+    const keyWordMatch = keyWords.findIndex(
+      (item: string) => item.toLowerCase() === identifier.toLowerCase()
+    );
+    const double = identifierArray.findIndex(
+      (item: string) => item.toLowerCase() === identifier.toLowerCase()
+    );
+    if (keyWordMatch >= 0) {
+      addToGlobalTable(identifier, 'KEY', keyWordMatch);
+    } else if (double >= 0) {
+      addToGlobalTable(identifier, 'IDENT', double);
+    } else {
+      identifierArray.push(identifier);
+      addToGlobalTable(identifier, 'IDENT', identifierArray.length - 1);
+    }
     identifier = '';
     // lookup goes here
   }
   if (digit.length) {
-    digitArray.push(digit);
+    const digitDouble = digitArray.findIndex((item: string) => item === digit);
+    if (digitDouble >= 0) {
+      addToGlobalTable(digit, 'CONST', digitDouble);
+    } else {
+      digitArray.push(digit);
+      addToGlobalTable(digit, 'CONST', digitArray.length - 1);
+    }
     digit = '';
   }
+}
 
-  console.log(identifierArray);
-  console.log(digitArray);
+function pushToDelimArray() {
+  if (delim.length > 0) {
+    const position = keyWords.findIndex(item => item === delim);
+    const double = delimeterArray.findIndex(item => item === delim);
+    if (double === -1) {
+      delimeterArray.push(delim);
+    }
+    addToGlobalTable(delim, 'KEY', position);
+    delim = '';
+  }
 }
 
 function getDelimeters(keyWordArray: Array<string>): Array<string> {
@@ -68,8 +129,20 @@ function getDelimeters(keyWordArray: Array<string>): Array<string> {
   });
 }
 
+function addToGlobalTable(
+  literal: string,
+  type: LiteralType,
+  position: number
+) {
+  finalTable.push({
+    literal,
+    type,
+    position
+  });
+}
+
 function getKeyWords(): Array<string> {
-  const keyWordArray = [];
+  const keyWordArray: Array<string> = [];
   const keyWordsLi = document.querySelectorAll('.keyword');
   keyWordsLi.forEach(li => keyWordArray.push(li.textContent.trim()));
 
