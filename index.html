@@ -9,8 +9,11 @@
     <link rel="stylesheet" href="./src/css/main.css" />
   </head>
   <body>
-    <div class="source-code">
-      <textarea name="code" id="source-code" cols="65" rows="12">
+    <h1 class="main-heading">Text analyzer</h1>
+    <div class="flex-box">
+      <div class="source-code">
+        <h2>Source code</h2>
+        <textarea name="code" id="source-code" cols="65" rows="18">
 procedure TEditor.DrawLines(Y, Count: Integer; LinePtr: Word);
 var Color: Word; b: array[0..MaxLineLength - 1] of Word;
 while Count > 0 do
@@ -23,52 +26,73 @@ Dec(Count);
 End;
 R := Operand * R / 100;
 End;</textarea
-      >
-      <button onclick="main()">Analyze</button>
-    </div>
-    <div class="key-words">
-      <ul class="key-word-list">
-        <li class="keyword">procedure</li>
-        <li class="keyword">.</li>
-        <li class="keyword">(</li>
-        <li class="keyword">,</li>
-        <li class="keyword">:</li>
-        <li class="keyword">;</li>
-        <li class="keyword">)</li>
-        <li class="keyword">var</li>
-        <li class="keyword">[</li>
-        <li class="keyword">..</li>
-        <li class="keyword">-</li>
-        <li class="keyword">]</li>
-        <li class="keyword">of</li>
-        <li class="keyword">Begin</li>
-        <li class="keyword">:=</li>
-        <li class="keyword">while</li>
-        <li class="keyword">&gt;</li>
-        <li class="keyword">do</li>
-        <li class="keyword">+</li>
-        <li class="keyword">end</li>
-        <li class="keyword">*</li>
-        <li class="keyword">/</li>
-        <li class="keyword">Integer</li>
-        <li class="keyword">Word</li>
-        <li class="keyword">$</li>
-      </ul>
-      <input type="text" class="add-key-word-input" />
-      <button class="add-btn" onclick="addKeyWord()">Add keyword</button>
-    </div>
-    <div class="result-table">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+        >
+        <button class="btn btn-primary btn-anylize" onclick="main()">
+          Analyze
+        </button>
+      </div>
+      <div class="key-words">
+        <h2>Key words</h2>
+        <ul class="key-word-list">
+          <li class="keyword">procedure</li>
+          <li class="keyword">.</li>
+          <li class="keyword">(</li>
+          <li class="keyword">,</li>
+          <li class="keyword">:</li>
+          <li class="keyword">;</li>
+          <li class="keyword">)</li>
+          <li class="keyword">var</li>
+          <li class="keyword">[</li>
+          <li class="keyword">..</li>
+          <li class="keyword">-</li>
+          <li class="keyword">]</li>
+          <li class="keyword">of</li>
+          <li class="keyword">Begin</li>
+          <li class="keyword">:=</li>
+          <li class="keyword">while</li>
+          <li class="keyword">&gt;</li>
+          <li class="keyword">do</li>
+          <li class="keyword">+</li>
+          <li class="keyword">end</li>
+          <li class="keyword">*</li>
+          <li class="keyword">/</li>
+          <li class="keyword">Integer</li>
+          <li class="keyword">Word</li>
+          <li class="keyword">$</li>
+        </ul>
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            class="form-control add-key-word-input"
+            placeholder="Key word"
+            aria-label="Key word"
+            aria-describedby="button-addon2"
+          />
+          <div class="input-group-append">
+            <button
+              class="btn btn-outline-primary"
+              type="button"
+              id="button-addon2"
+              onclick="addKeyWord()"
+            >
+              Button
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="result-table">
+        <h2>Literal table</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Literal</th>
+              <th scope="col">Type</th>
+              <th scope="col">Index</th>
+            </tr>
+          </thead>
+          <tbody class="table-body"></tbody>
+        </table>
+      </div>
     </div>
   </body>
   <script src="./index.js"></script>

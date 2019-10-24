@@ -6,11 +6,11 @@ interface GlobalLiteralTableItem {
   position: number;
 }
 
-const finalTable: Array<GlobalLiteralTableItem> = [];
+let finalTable: Array<GlobalLiteralTableItem> = [];
 
-const identifierArray: Array<string> = [];
-const digitArray: Array<string> = [];
-const delimeterArray: Array<string> = [];
+let identifierArray: Array<string> = [];
+let digitArray: Array<string> = [];
+let delimeterArray: Array<string> = [];
 let identifier = '';
 let digit = '';
 let delim = '';
@@ -66,6 +66,7 @@ function anazyle(sourceCode: string) {
       } else if (char !== ' ' && char.charCodeAt(0) !== 10) {
         alert(`Unknown symbol ${char} ; Char code: ${char.charCodeAt(0)}`);
         return;
+        // Created by Germans G.
       }
       if (char !== ':' && char !== '.') {
         pushToDelimArray();
@@ -78,6 +79,7 @@ function anazyle(sourceCode: string) {
   console.log(digitArray);
   console.log(delimeterArray);
   console.log(finalTable);
+  addToTable(finalTable);
 }
 
 function pushToArray() {
@@ -150,9 +152,34 @@ function getKeyWords(): Array<string> {
 }
 
 function main() {
+  keyWords = [];
+  identifierArray = [];
+  digitArray = [];
+  delimeterArray = [];
+  finalTable = [];
+
   const textArea = document.querySelector(
     '#source-code'
   ) as HTMLTextAreaElement;
   const sourceCodeText = textArea.value;
   anazyle(sourceCodeText);
+}
+
+function addToTable(data: Array<GlobalLiteralTableItem>) {
+  const tableBody = document.querySelector('.table-body');
+  tableBody.innerHTML = '';
+  data.forEach(item => {
+    const tr = document.createElement('tr');
+    let th = document.createElement('th');
+    th.setAttribute('scope', 'row');
+    th.textContent = item.literal;
+    tr.appendChild(th);
+    let td = document.createElement('td');
+    td.textContent = item.position.toString();
+    tr.appendChild(td);
+    td = document.createElement('td');
+    td.textContent = item.type;
+    tr.appendChild(td);
+    tableBody.appendChild(tr);
+  });
 }

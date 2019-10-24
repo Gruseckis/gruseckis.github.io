@@ -1,7 +1,49 @@
-body {
+.flex-box {
   display: flex;
 }
 
 #source-code {
   resize: none;
+  font-family: monospace;
+}
+
+.btn-anylize {
+  display: block;
+  width: 100%;
+}
+
+.source-code {
+  padding: 20px;
+  margin: 20px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.key-words {
+  margin: 20px 10px;
+  padding: 20px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.key-word-list {
+  max-height: 40vh;
+  overflow: auto;
+}
+
+.result-table {
+  padding: 20px 10px;
+  margin: 20px;
+  border: 1px solid black;
+  border-radius: 5px;
+  display: block;
+  max-height: 60vh;
+  overflow: auto;
+}
+
+.main-heading {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
 }
